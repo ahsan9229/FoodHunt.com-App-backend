@@ -20,4 +20,5 @@ const upload =multer({
 
 router.post("/" , upload.single("imageFile"), validateMyRestaurantReqeust, jwtCheck, jwtParse, MyRestaurantController.createMyRestaurant)
 router.get("/",jwtCheck ,jwtParse, MyRestaurantController.GetMyResturant )
+router.put("/",upload.single("imageFile"), validateMyRestaurantReqeust, jwtCheck, jwtParse,MyRestaurantController.UpdateMyRestaurant)
 export default router;
