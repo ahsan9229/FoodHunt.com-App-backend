@@ -1,9 +1,7 @@
-
- import Restaurant, { MenuItemType } from "../Models/restaurant";
- import Order from "../Models/order";
-
 import Stripe from "stripe";
 import { Request, Response } from "express";
+import Restaurant, { MenuItemType } from "../Models/restaurant";
+import Order from "../Models/order";
 
 const STRIPE = new Stripe(process.env.STRIPE_API_KEY as string);
 const FRONTEND_URL = process.env.FRONTEND_URL as string;
@@ -31,15 +29,14 @@ type CheckoutSessionRequest = {
   deliveryDetails: {
     email: string;
     name: string;
-    addressLine: string;
+    addressLine1: string;
     city: string;
   };
   restaurantId: string;
 };
 
 const stripeWebhookHandler = async (req: Request, res: Response) => {
-
-   let event;
+  let event;
 
   try {
     const sig = req.headers["stripe-signature"];
@@ -47,11 +44,11 @@ const stripeWebhookHandler = async (req: Request, res: Response) => {
       req.body,
       sig as string,
       STRIPE_ENDPOINT_SECRET
-     );
+    );
   } catch (error: any) {
-     console.log(error);
+    console.log(error);
     return res.status(400).send(`Webhook error: ${error.message}`);
-   }
+  }
 
   if (event.type === "checkout.session.completed") {
     const order = await Order.findById(event.data.object.metadata?.orderId);
@@ -169,7 +166,7 @@ const createSession = async (
       orderId,
       restaurantId,
     },
-        success_url: `${FRONTEND_URL}/order-status?success=true`,
+    success_url: `${FRONTEND_URL}/order-status?success=true`,
     cancel_url: `${FRONTEND_URL}/detail/${restaurantId}?cancelled=true`,
   });
 

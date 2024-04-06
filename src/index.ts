@@ -25,11 +25,10 @@ const  app =express();
 
 app.use(cors());
 app.use("/api/order/checkout/webhook", express.raw({ type: "*/*" }));
-
 app.use(express.json());
-app.get('/Health',async (req:Request ,res:Response)=>{
+app.get('/health',async (req:Request ,res:Response)=>{
 
-    res.send({message: "Health ok!"})
+    return res.send({message: "Health ok!"})
 })
 
 ///   api/my/user
