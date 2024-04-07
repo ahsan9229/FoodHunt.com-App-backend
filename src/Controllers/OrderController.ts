@@ -170,6 +170,7 @@ const createSession = async (
     cancel_url: `${FRONTEND_URL}/detail/${restaurantId}?cancelled=true`,
   });
 
+  console.log(sessionData);
   return sessionData;
 };
 
